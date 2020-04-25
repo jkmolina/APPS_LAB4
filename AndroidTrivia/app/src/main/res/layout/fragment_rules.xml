@@ -36,7 +36,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/trivia_rules" />
+            app:srcCompat="@drawable/ic_robot" />
 
         <TextView
             android:id="@+id/rulesText"
@@ -45,7 +45,7 @@
             android:layout_marginStart="@dimen/horizontal_margin"
             android:layout_marginTop="@dimen/vertical_margin"
             android:layout_marginEnd="@dimen/horizontal_margin"
-            android:text="@string/rules_text"
+            android:text="Instrucciones: Presione 'iniciar registro' para poder \n meter personas. Al final habran dos botones. \n Con uno puede ver invitados y con el otro reiniciar."
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -37,8 +37,15 @@ class GameWonFragment : Fragment() {
             view.findNavController().navigate(GameWonFragmentDirections.actionGameWonFragmentToGameFragment())
         }
         val args = GameWonFragmentArgs.fromBundle(arguments!!)
-        Toast.makeText(context, "NumCorrect: ${args.numCorrect}, NumQuestions: ${args.numQuestions}", Toast.LENGTH_LONG).show()
-
+        var lista: String = args.numQuestions
+        //Toast.makeText(context, "NumCorrect: ${args.numCorrect}, NumQuestions: ${args.numQuestions}", Toast.LENGTH_LONG).show()
+        //we transfer the people who are invited and also the number of attendees.
+        binding.textInvited.text="Invitados: 6"
+        binding.textConfirmed.text="Confirmados: ${args.numCorrect}"
+        binding.nextMatchButton2.setOnClickListener @Suppress("UNUSED_ANONYMOUS_PARAMETER")
+        {
+            Toast.makeText(context, lista, Toast.LENGTH_SHORT).show()
+        }
         setHasOptionsMenu(true)
         return binding.root
     }
@@ -48,7 +55,7 @@ class GameWonFragment : Fragment() {
         val args = GameWonFragmentArgs.fromBundle(arguments!!)
         val shareIntent = Intent(Intent.ACTION_SEND)
         shareIntent.setType("text/plain")
-                .putExtra(Intent.EXTRA_TEXT, getString(R.string.share_success_text, args.numCorrect, args.numQuestions))
+                .putExtra(Intent.EXTRA_TEXT, getString(R.string.share_success_text, args.numCorrect, 6))
         return shareIntent
     }
 
