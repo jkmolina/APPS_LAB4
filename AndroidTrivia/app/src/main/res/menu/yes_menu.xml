@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <menu xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <item
+            android:id="@+id/button_yes"
+            android:enabled="true"
+            android:icon="@drawable/share"
+            android:title="Yes"
+            android:visible="true"
+            app:showAsAction="ifRoom" />
+    </menu>
+</menu>
