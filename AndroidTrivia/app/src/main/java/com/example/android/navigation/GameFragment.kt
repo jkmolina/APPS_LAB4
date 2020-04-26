@@ -10,7 +10,7 @@
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
+ * See the License for the  specific language governing permissions and
  * limitations under the License.
  */
 
@@ -27,42 +27,41 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.android.navigation.databinding.FragmentGameBinding
+import kotlinx.android.synthetic.main.fragment_game.*
 
 class GameFragment : Fragment() {
-    data class Question(
-            val text: String,
-            val answers: List<String>)
 
     // The first answer is the correct one.  We randomize the answers before showing the text.
     // All questions must have four answers.  We'd want these to contain references to string
     // resources so we could internationalize. (Or better yet, don't define the questions in code...)
-    private val questions: MutableList<Question> = mutableListOf(
-            Question(text = "Berlin",
-                    answers = listOf("All of these", "Tools", "Documentation", "Libraries")),
-            Question(text = "Moscu",
-                    answers = listOf("ViewGroup", "ViewSet", "ViewCollection", "ViewRoot")),
-            Question(text = "Denver",
-                    answers = listOf("ConstraintLayout", "GridLayout", "LinearLayout", "FrameLayout")),
-            Question(text = "Tokio",
-                    answers = listOf("Data binding", "Data pushing", "Set text", "An OnClick method")),
-            Question(text = "Helsinki",
-                    answers = listOf("onCreateView()", "onActivityCreated()", "onCreateLayout()", "onInflateLayout()")),
-            Question(text = "Oslo",
-                    answers = listOf("Gradle", "Graddle", "Grodle", "Groyle")),
-            Question(text = "Nairobi",
-                    answers = listOf("VectorDrawable", "AndroidVectorDrawable", "DrawableVector", "AndroidVector"))
+
+    //we prepare the list of guests to the party
+    private val guestList: MutableList<Guest> = mutableListOf(
+            Guest(name="Berlin",phone="72739490",email="berlin@gmail.com"),
+            Guest(name="Moscu",phone="72231490",email="moscu@gmail.com"),
+            Guest(name="Oslo",phone="72755590",email="oslo@gmail.com"),
+            Guest(name="Tokio",phone="72739777",email="tokio@gmail.com"),
+            Guest(name="Helsinki",phone="32559490",email="helsinki@gmail.com"),
+            Guest(name="Tokio",phone="74389490",email="tokio@gmail.com"),
+            Guest(name="Rio",phone="72736740",email="rio@gmail.com"),
+            Guest(name="Nairobi",phone="72755590",email="nairobi@gmail.com"),
+            Guest(name="Lisboa",phone="12339490",email="lisboa@gmail.com"),
+            Guest(name="Joonho",phone="72739555",email="joonho@gmail.com")
 
     )
 
 //CODIGO BASADO EN CODELAB #4
 
-    lateinit var currentQuestion: Question
+
     lateinit var answers: MutableList<String>
     private var questionIndex = 0
-    private val numQuestions = Math.min((questions.size + 1) / 2, 3)
+    private val numQuestions = 10
     //the following two variables are meant to keep count of the invitees
     var list: String="";
     var confirmed:Int=0;
+    var guestIndex=0;
+    private var guest = Guest()
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -71,44 +70,15 @@ class GameFragment : Fragment() {
         val binding = DataBindingUtil.inflate<FragmentGameBinding>(
                 inflater, R.layout.fragment_game, container, false)
 
-        // Shuffles the questions and sets the question index to the first question.
-        randomizeQuestions()
+        binding.guest=guest
 
-        // Bind this fragment class to the layout
-        binding.game = this
-
-        // Set the onClickListener for the submitButton.
-        binding.submitButton.setOnClickListener @Suppress("UNUSED_ANONYMOUS_PARAMETER")
-        { view: View ->
-            confirmed=confirmed+1;
-            list= list+ "|"+(questions[questionIndex].text)+": SI"
-            //we add one to the question index to iterate over our list
-            questionIndex++;
-            currentQuestion = questions[questionIndex]
-            setQuestion()
-            binding.invalidateAll()
-            //if we are done checking people, then we go to the game won fragment (ending fragment).
-            if (questionIndex == 6) {
-                view.findNavController().navigate(GameFragmentDirections
-                        .actionGameFragmentToGameWonFragment(list, confirmed))
-            }
+        binding.apply{
+            binding.invalidateAll();
+            questionText.text=guestList[guestIndex].name
+            phoneText.text=guestList[guestIndex].phone
+            emailText.text=guestList[guestIndex].email
         }
 
-        //same thing as the submitButton, but this one is for people who dont go
-            binding.button.setOnClickListener @Suppress("UNUSED_ANONYMOUS_PARAMETER")
-            { view: View ->
-                list= list+ " |"+(questions[questionIndex].text)+": NO"
-                questionIndex++;
-                currentQuestion = questions[questionIndex]
-
-                setQuestion()
-                binding.invalidateAll()
-                if (questionIndex == 6) {
-                    //context!!.toast(list);
-                    view.findNavController().navigate(GameFragmentDirections
-                            .actionGameFragmentToGameWonFragment(list,confirmed))
-                }
-            }
 
             setHasOptionsMenu(true)
 
@@ -122,32 +92,37 @@ class GameFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.title_android_trivia_question, guestIndex + 1, 10)
+        questionText.text=guestList[guestIndex].name
+        phoneText.text=guestList[guestIndex].phone
+        emailText.text=guestList[guestIndex].email
+
         when (item!!.itemId) {
-            R.id.button_cancel -> context!!.toast("Por favor usar botones de abajo")
-            R.id.button_yes -> context!!.toast("Por favor usar botones de abajo")
+            R.id.button_cancel -> {
+                list= list+ "|"+(guestList[guestIndex].name)+": NO"
+                if(guestIndex==9)
+                {
+                    view!!.findNavController().navigate(GameFragmentDirections
+                            .actionGameFragmentToGameWonFragment(list, confirmed))
+                }
+
+            }
+            R.id.button_yes -> {
+                //context!!.toast("Por favor usar botones de abajo")
+                confirmed++;
+                list= list+ "|"+(guestList[guestIndex].name)+": SI"
+                if(guestIndex==9)
+                {
+                    view!!.findNavController().navigate(GameFragmentDirections
+                            .actionGameFragmentToGameWonFragment(list, confirmed))
+                }
+
+            }
+
         }
+        guestIndex++
         return super.onOptionsItemSelected(item)
     }
 
-    // randomize the questions and set the first question
-    private fun randomizeQuestions() {
-        questions.shuffle()
-        questionIndex = 0
-        setQuestion()
-    }
 
-    fun Context.toast(message: CharSequence) =
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-
-
-    // Sets the question and randomizes the answers.  This only changes the data, not the UI.
-    // Calling invalidateAll on the FragmentGameBinding updates the data.
-    private fun setQuestion() {
-        currentQuestion = questions[questionIndex]
-        // randomize the answers into a copy of the array
-        answers = currentQuestion.answers.toMutableList()
-        // and shuffle them
-        answers.shuffle()
-        (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.title_android_trivia_question, questionIndex + 1, 6)
-    }
 }

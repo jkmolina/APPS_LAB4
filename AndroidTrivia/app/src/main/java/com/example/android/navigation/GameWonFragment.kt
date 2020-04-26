@@ -38,9 +38,9 @@ class GameWonFragment : Fragment() {
         }
         val args = GameWonFragmentArgs.fromBundle(arguments!!)
         var lista: String = args.numQuestions
-        //Toast.makeText(context, "NumCorrect: ${args.numCorrect}, NumQuestions: ${args.numQuestions}", Toast.LENGTH_LONG).show()
+
         //we transfer the people who are invited and also the number of attendees.
-        binding.textInvited.text="Invitados: 6"
+        binding.textInvited.text="Invitados: 10"
         binding.textConfirmed.text="Confirmados: ${args.numCorrect}"
         binding.nextMatchButton2.setOnClickListener @Suppress("UNUSED_ANONYMOUS_PARAMETER")
         {
@@ -55,7 +55,7 @@ class GameWonFragment : Fragment() {
         val args = GameWonFragmentArgs.fromBundle(arguments!!)
         val shareIntent = Intent(Intent.ACTION_SEND)
         shareIntent.setType("text/plain")
-                .putExtra(Intent.EXTRA_TEXT, getString(R.string.share_success_text, args.numCorrect, 6))
+                .putExtra(Intent.EXTRA_TEXT, args.numQuestions)
         return shareIntent
     }
 
