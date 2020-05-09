@@ -10,4 +10,9 @@
         android:id="@+id/aboutFragment"
         android:icon="@drawable/about_android_trivia"
         android:title="Acerca de..." />
+    <item
+        android:id="@+id/registerFragment"
+        android:title="Invitados"
+        />
+
 </menu>
