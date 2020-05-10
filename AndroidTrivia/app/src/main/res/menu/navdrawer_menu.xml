@@ -12,7 +12,7 @@
         android:title="Acerca de..." />
     <item
         android:id="@+id/registerFragment"
-        android:title="Invitados"
-        />
+        android:icon="@android:drawable/ic_dialog_email"
+        android:title="Invitados" />
 
 </menu>

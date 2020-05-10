@@ -23,6 +23,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.example.android.navigation.MyApplication.Companion.globalVar
 import com.example.android.navigation.databinding.FragmentGameWonBinding
 
 
@@ -40,7 +41,7 @@ class GameWonFragment : Fragment() {
         var lista: String = args.numQuestions
 
         //we transfer the people who are invited and also the number of attendees.
-        binding.textInvited.text="Invitados: 10"
+        binding.textInvited.text="Invitados: "+globalVar.size.toString()
         binding.textConfirmed.text="Confirmados: ${args.numCorrect}"
         binding.nextMatchButton2.setOnClickListener @Suppress("UNUSED_ANONYMOUS_PARAMETER")
         {
