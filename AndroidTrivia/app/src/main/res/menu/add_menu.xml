@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/button_cancel"
+        android:icon="@drawable/ic_cancel"
+        app:showAsAction="ifRoom"
+        android:title="No"/>
+
+    <item android:id="@+id/button_yes"
+        android:icon="@drawable/ic_assignment_turned_in_black_24dp"
+        app:showAsAction="ifRoom"
+        android:title="No"/>
+</menu>

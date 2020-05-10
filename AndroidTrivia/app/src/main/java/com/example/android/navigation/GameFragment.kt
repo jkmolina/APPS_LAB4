@@ -26,6 +26,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
+import com.example.android.navigation.MyApplication.Companion.globalVar
 import com.example.android.navigation.databinding.FragmentGameBinding
 import kotlinx.android.synthetic.main.fragment_game.*
 
@@ -36,19 +37,7 @@ class GameFragment : Fragment() {
     // resources so we could internationalize. (Or better yet, don't define the questions in code...)
 
     //we prepare the list of guests to the party
-    private val guestList: MutableList<Guest> = mutableListOf(
-            Guest(name="Berlin",phone="72739490",email="berlin@gmail.com"),
-            Guest(name="Moscu",phone="72231490",email="moscu@gmail.com"),
-            Guest(name="Oslo",phone="72755590",email="oslo@gmail.com"),
-            Guest(name="Tokio",phone="72739777",email="tokio@gmail.com"),
-            Guest(name="Helsinki",phone="32559490",email="helsinki@gmail.com"),
-            Guest(name="Tokio",phone="74389490",email="tokio@gmail.com"),
-            Guest(name="Rio",phone="72736740",email="rio@gmail.com"),
-            Guest(name="Nairobi",phone="72755590",email="nairobi@gmail.com"),
-            Guest(name="Lisboa",phone="12339490",email="lisboa@gmail.com"),
-            Guest(name="Joonho",phone="72739555",email="joonho@gmail.com")
-
-    )
+    private val guestList: MutableList<Guest> = globalVar
 
 //CODIGO BASADO EN CODELAB #4
 
@@ -92,7 +81,7 @@ class GameFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.title_android_trivia_question, guestIndex + 1, 10)
+        (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.title_android_trivia_question, guestIndex + 1, globalVar.size)
         questionText.text=guestList[guestIndex].name
         phoneText.text=guestList[guestIndex].phone
         emailText.text=guestList[guestIndex].email
@@ -100,7 +89,7 @@ class GameFragment : Fragment() {
         when (item!!.itemId) {
             R.id.button_cancel -> {
                 list= list+ "|"+(guestList[guestIndex].name)+": NO"
-                if(guestIndex==9)
+                if(guestIndex== globalVar.size-1)
                 {
                     view!!.findNavController().navigate(GameFragmentDirections
                             .actionGameFragmentToGameWonFragment(list, confirmed))
@@ -108,10 +97,9 @@ class GameFragment : Fragment() {
 
             }
             R.id.button_yes -> {
-                //context!!.toast("Por favor usar botones de abajo")
                 confirmed++;
                 list= list+ "|"+(guestList[guestIndex].name)+": SI"
-                if(guestIndex==9)
+                if(guestIndex==globalVar.size-1)
                 {
                     view!!.findNavController().navigate(GameFragmentDirections
                             .actionGameFragmentToGameWonFragment(list, confirmed))

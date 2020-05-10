@@ -1,12 +1,18 @@
 package com.example.android.navigation
 
 import android.os.Bundle
+import android.view.*
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.findNavController
+import com.example.android.navigation.MyApplication.Companion.globalVar
+import com.example.android.navigation.databinding.FragmentAddBinding
+import com.example.android.navigation.databinding.FragmentAddBindingImpl
 import com.example.android.navigation.databinding.FragmentTitleBinding
+import kotlinx.android.synthetic.main.fragment_add.*
+import kotlinx.android.synthetic.main.fragment_game.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -23,6 +29,7 @@ class AddFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -34,10 +41,19 @@ class AddFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        val binding = DataBindingUtil.inflate<FragmentTitleBinding>(inflater,
+        val binding = DataBindingUtil.inflate<FragmentAddBinding>(inflater,
                 R.layout.fragment_add,container,false)
+        setHasOptionsMenu(true)
+
+
+        //binding.guest=guest1
+
 
         return binding.root
+    }
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater?.inflate(R.menu.add_menu, menu)
     }
 
     companion object {
@@ -59,4 +75,28 @@ class AddFragment : Fragment() {
                     }
                 }
     }
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        val name=text_name.text.toString()
+        val email=text_mail.text.toString()
+        val number=text_number.text.toString()
+
+        val newGuy:Guest=Guest(name,email,number)
+
+
+        (activity as AppCompatActivity).supportActionBar?.title = "Add Somebody"
+
+        when (item!!.itemId) {
+
+            R.id.button_cancel -> {
+                view!!.findNavController().navigate(R.id.action_addFragment_to_registerFragment)
+            }
+            R.id.button_yes -> {
+                globalVar.add(newGuy)
+                view!!.findNavController().navigate(R.id.action_addFragment_to_registerFragment)
+            }
+
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
 }

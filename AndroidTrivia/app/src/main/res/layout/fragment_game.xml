@@ -19,7 +19,6 @@
     tools:context="com.example.android.navigation.InGame">
 
     <data>
-
         <variable
             name="guest"
             type="com.example.android.navigation.Guest" />
